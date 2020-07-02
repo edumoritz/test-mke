@@ -1,7 +1,7 @@
 <br />
 <p align="center">
   <a>
-    <img alt="Github Explore" title="Github Explore" src=".github/rn.png" width="200">
+    <img alt="Github Explore" title="Github Explore" src=".github/tech_reactnative.webp" width="200">
     <img alt="Github Explore" title="Github Explore" src=".github/ang.png" width="200">
     <img alt="Github Explore" title="Github Explore" src=".github/ts.png" width="200">
   </a>
