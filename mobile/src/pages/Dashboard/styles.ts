@@ -14,6 +14,22 @@ export const Container = styled.SafeAreaView`
   align-items: center;
 `;
 
+export const Toolbar = styled.View`
+  display: flex;
+  align-items: center;
+  flex-direction: row;  
+  margin-top: 20px;
+`;
+
+export const Titulo = styled.Text`  
+  font-weight: bold;
+  font-size: 30px;
+  color: #312e38;
+  padding-left: 50px;
+  padding-right: 40px;
+  font-family: 'Roboto-Medium';
+`;
+
 export const ProdutoContainer = styled.View`
   border-radius: 5px;
   margin-top: 20px;
@@ -56,14 +72,6 @@ export const ProdutoPreco = styled.Text`
   color: #228B22;
 `;
 
-export const Titulo = styled.Text`
-  margin-top: 20px;
-  font-weight: bold;
-  font-size: 30px;
-  color: #312e38;
-  font-family: 'Roboto-Medium';
-`;
-
 export const ProdutoCategoria = styled.Text`  
   font-size: 16px;
 `;
@@ -78,7 +86,6 @@ export const TituloAdicionar = styled.Text`
   border-radius: 13px;
 `;
 
-export const ProdutoButton = styled.TouchableOpacity``;
+export const Button = styled.TouchableOpacity``;
 
-export const ButtonAdd = styled.TouchableOpacity``;
 

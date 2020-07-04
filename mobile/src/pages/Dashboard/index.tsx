@@ -9,16 +9,16 @@ import api from '../../services/api';
 
 import {
   Container,
+  Toolbar,
   ProdutoList,
   Produto,
   Titulo,
   ProdutoNome,
   ButtonContainer,
   ProdutoPreco,
-  ProdutoButton,
   ProdutoContainer,
   ProdutoCategoria,
-  ButtonAdd,
+  Button,
   TituloAdicionar
 } from './styles';
 
@@ -60,9 +60,22 @@ const Dashboard: React.FC = () => {
     navigate('Register');
   }, [navigate]);
 
+  const navigateToCategory = useCallback(() => {
+    navigate('Category');
+  }, [navigate]);
+
   return (
     <Container>
-      <Titulo>Lista de Produtos</Titulo>
+
+      <Toolbar>
+        <Titulo>Lista de Produtos</Titulo>
+          <Button
+            onPress={navigateToCategory}
+          >
+            <FeatherIcon size={30} name="package" color="#312e38" />
+          </Button>
+      </Toolbar>  
+      
       <ProdutoContainer>
         <ProdutoList
           data={produtos}
@@ -78,27 +91,27 @@ const Dashboard: React.FC = () => {
               <ProdutoCategoria>{item.categoria}</ProdutoCategoria>
               <ProdutoPreco>{formatValue(item.preco)}</ProdutoPreco>
               <ButtonContainer>
-                <ProdutoButton
+                <Button
                   onPress={() => {handleEdit(item)}}
                 >
                   <FeatherIcon size={30} name="edit" color="#FF8C00" />
-                </ProdutoButton>
-                <ProdutoButton
+                </Button>
+                <Button
                   onPress={() => {handleDelete(item)}}
                 >
                   <FeatherIcon size={30} name="trash-2" color="#e83f5b" />
-                </ProdutoButton>
+                </Button>
               </ButtonContainer>
             </Produto>
           )}
         />
         
       </ProdutoContainer>
-      <ButtonAdd
+      <Button
          onPress={navigateToRegister}
       >
          <TituloAdicionar>Adicionar</TituloAdicionar>
-      </ButtonAdd>
+      </Button>
     </Container>
   );
 };
