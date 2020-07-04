@@ -10,17 +10,17 @@ function Input({ name, label, ...rest }) {
     registerField({
       name: fieldName,
       ref: inputRef.current,
-      path: '_lastNativeText',
+      path: 'value',
       getValue(ref) {
-        return ref._lastNativeText || '';
+        return ref.value || '';
       },
-      setValue(ref, value) {
+      setValue(ref, value) {        
         ref.setNativeProps({ text: value });
-        ref._lastNativeText = value;
+        inputRef.current.value = value;
       },
       clearValue(ref) {
         ref.setNativeProps({ text: '' });
-        ref._lastNativeText = '';
+        ref.value = '';
       }
     })
   }, [fieldName, registerField]);
@@ -31,8 +31,14 @@ function Input({ name, label, ...rest }) {
 
       <TextInput
         style={styles.input}
+        keyboardAppearance="dark"
         ref={inputRef}
         defaultValue={defaultValue}
+        onChangeText={value => {
+          if (inputRef.current) {
+            inputRef.current.value = value;
+          }
+        }}
         {...rest}
       />
     </>
@@ -51,9 +57,11 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     borderRadius: 4,
     borderWidth: 2,
-    borderColor: '#ddd',
-    fontSize: 15,
-    color: '#444',
+    borderColor: '#312e38',
+    width: 300,
+    fontSize: 20,
+    fontWeight: "bold",
+    color: '#312e38',
   },
 });
 

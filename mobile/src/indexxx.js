@@ -40,12 +40,9 @@ export default function App() {
 
   async function deleteProduto(id) {
     const produtoIndex = produtos.findIndex(p => p.id === id);
-
-    produtos.splice(produtoIndex, 1)
-
+    produtos.splice(produtoIndex, 1);
     setProdutos([...produtos]);
     await api.delete(`produtos/${id}`);
-
   }
 
 

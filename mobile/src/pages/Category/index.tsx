@@ -27,15 +27,10 @@ const Category: React.FC = () => {
 
   useEffect(() => {
     async function loadCategories(): Promise<void> {
-      const response = await api.get('/produtos');
-      
-      console.log(response.data["categorias"])
+      const response = await api.get('/produtos');      
       setCategories(response.data["categorias"]);
-      // console.log(categories.length)
     }
-
-    loadCategories();
-    
+    loadCategories();    
   }, []); 
 
 
