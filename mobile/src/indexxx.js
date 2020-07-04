@@ -51,7 +51,7 @@ export default function App() {
 
   return (
     <>
-      <StatusBar barStyle="light-content" backgroundColor="#FF5733" />
+      <StatusBar barStyle="light-content" backgroundColor="#000000" />
 
       <SafeAreaView style={styles.container}>
 
@@ -95,15 +95,15 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#FF5733',
+    flex: 1,    
+    backgroundColor: '#A9A9A9',
 
   },
   produtoContainer: {
-    marginBottom: 15,
+    marginTop: 15,
     marginHorizontal: 15,
     padding: 20,
-    backgroundColor: '#CD3414'
+    backgroundColor: '#DCDCDC'
   },
   actionContainer: {
     flexDirection: "row",

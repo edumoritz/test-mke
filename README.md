@@ -61,7 +61,7 @@ Essa aplicação é um exemplo de CRUD com API Rest de produtos, com os campos: 
 </p>
 
 <p align="center">  
-  <img src = ".github/app.jpeg" width=200>
+  <img src = ".github/mobile.png" width=200>
 </p>
 
 
