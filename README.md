@@ -39,7 +39,7 @@ Essa aplicação é um exemplo de CRUD com API Rest de produtos, com os campos: 
 
 - [Tecnologias](#tecnologias)
 - [Funcionalidades](#funcionalidades)
-- [Installation](#installation)
+- [Instalação](#instalação)
 - [Feedback](#feedback)
 
 ## :rocket: Tecnologias
@@ -61,11 +61,11 @@ Essa aplicação é um exemplo de CRUD com API Rest de produtos, com os campos: 
 </p>
 
 <p align="center">  
-  <img src = ".github/mobile.png" width=200>
+  <img src = ".github/lista-mobile.png" width=200>
+  <img src = ".github/lista-mobile-2.png" width=200>
 </p>
 
-
-## Installation
+## Instalação
 
 Primeiro é preciso clonar este repositório com o seguinte comando:
 ```

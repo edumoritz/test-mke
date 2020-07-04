@@ -54,7 +54,7 @@ const Dashboard: React.FC = () => {
       setProdutos(response.data["produtos"]);
     }
     deleteProduto(item.id);
-  }
+  } 
 
   const navigateToRegister = useCallback(() => {
     navigate('Register');
