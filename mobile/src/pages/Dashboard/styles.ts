@@ -20,6 +20,16 @@ export const ProdutoContainer = styled.View`
   flex: 1;
   flex-direction: row;
 `;
+
+export const ProdutoList = styled(
+  FlatList as new () => FlatList<Produto>,
+).attrs({
+  numColumns: 2,
+})`
+  flex: 1;
+  padding: 0 10px;
+`;
+
 export const Produto = styled.View`
   background: #fff;
   padding: 16px 16px;
@@ -33,11 +43,11 @@ export const ProdutoNome = styled.Text`
   margin-top: 10px;
   font-family: 'Roboto-Medium';
 `;
-export const PrecoContainer = styled.View`
+export const ButtonContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding-top: 10px;
+  padding-top: 15px;
   margin-top: auto;
 `;
 export const ProdutoPreco = styled.Text`
@@ -46,7 +56,7 @@ export const ProdutoPreco = styled.Text`
   color: #228B22;
 `;
 
-export const ProdutoTitulo = styled.Text`
+export const Titulo = styled.Text`
   margin-top: 20px;
   font-weight: bold;
   font-size: 30px;
@@ -72,11 +82,3 @@ export const ProdutoButton = styled.TouchableOpacity``;
 
 export const ButtonAdd = styled.TouchableOpacity``;
 
-export const ProdutoList = styled(
-  FlatList as new () => FlatList<Produto>,
-).attrs({
-  numColumns: 2,
-})`
-  flex: 1;
-  padding: 0 10px;
-`;

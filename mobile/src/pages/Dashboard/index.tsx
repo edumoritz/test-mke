@@ -11,9 +11,9 @@ import {
   Container,
   ProdutoList,
   Produto,
-  ProdutoTitulo,
+  Titulo,
   ProdutoNome,
-  PrecoContainer,
+  ButtonContainer,
   ProdutoPreco,
   ProdutoButton,
   ProdutoContainer,
@@ -45,6 +45,9 @@ const Dashboard: React.FC = () => {
     loadProducts();
   }, [produtos]); 
 
+  function handleEdit(item: Produto): void {
+  }
+
   function handleDelete(item: Produto): void {
     async function deleteProduto(id): Promise<void> {
       const response = await api.delete(`produtos/${id}`);      
@@ -59,7 +62,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <Container>
-      <ProdutoTitulo>Lista de Produtos</ProdutoTitulo>
+      <Titulo>Lista de Produtos</Titulo>
       <ProdutoContainer>
         <ProdutoList
           data={produtos}
@@ -70,16 +73,22 @@ const Dashboard: React.FC = () => {
           }}
           renderItem={({ item }) => (
             <Produto>
+              
               <ProdutoNome>{item.nome}</ProdutoNome>
               <ProdutoCategoria>{item.categoria}</ProdutoCategoria>
-              <PrecoContainer>
-                <ProdutoPreco>{formatValue(item.preco)}</ProdutoPreco>
+              <ProdutoPreco>{formatValue(item.preco)}</ProdutoPreco>
+              <ButtonContainer>
+                <ProdutoButton
+                  onPress={() => {handleEdit(item)}}
+                >
+                  <FeatherIcon size={30} name="edit" color="#FF8C00" />
+                </ProdutoButton>
                 <ProdutoButton
                   onPress={() => {handleDelete(item)}}
                 >
                   <FeatherIcon size={30} name="trash-2" color="#e83f5b" />
                 </ProdutoButton>
-              </PrecoContainer>
+              </ButtonContainer>
             </Produto>
           )}
         />
