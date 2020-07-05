@@ -30,7 +30,7 @@
 </p>
 
 <p align="center">
-Essa aplicação é um exemplo de CRUD com API Rest de produtos, com os campos: id, nome, preço e categoria.
+Essa aplicação é um exemplo de CRUD com API Rest de produtos
 <p>
 
 
@@ -50,10 +50,11 @@ Essa aplicação é um exemplo de CRUD com API Rest de produtos, com os campos: 
 
 ## :bookmark: Funcionalidades
 
-* Você pode realizar um push de um produto com ou sem categoria, caso você informe a categoria ela será analisada pelo backend se não existir uma categoria com mesmo nome ela será gravada na "tabela" de categorias. 
-* Quando você realizar uma requisição get trazendo todos os produtos será listado os produtos e as categorias.
-* Na requisição get por id será retornardo apenas um produto com sua categoria.
-* No delete será excluido o produto.
+* POST: É possivel realizar cadastro de produtos com ou sem categoria, caso informe a categoria ela será analisada pelo backend se não existir uma categoria com o mesmo nome ela será gravada na "tabela" de categorias. 
+* GET: Lista todas os produtos e categorias cadastrados.
+* GET/ID: Retorna um produto com a sua categoria.
+* PUT/ID: Editar o produto enviado na requisição.
+* DELETE: Excluido o produto.
 
 <p align="center">
   <img src = ".github/cadprod.png" width=700>
@@ -77,25 +78,27 @@ Logo após clonar é preciso entrar na pasta do projeto:
 ```
 * <h3>Backend</h3>
 Dentro dessa pasta irá conter 3 pastas que são: backend, frontend e mobile.
-Sendo assim é preciso primeiro entrar na pasta backend e executar a instalação para assim executa-lo dessa forma:
+Sendo assim é preciso primeiro entrar na pasta backend e executar a instalação para assim executa-lo com os seguintes comandos:
 ```
   cd backend
   // Instalação das dependencias:
   yarn install
   
   // Iniciar a aplicação
-  // yarn start
+  yarn start
 ```
-* <h3>Frontend</h3>
 Com o backend inicializado é possivel realizar testes com as ferramentas do tipo postman/isominia ou executar o frontend.
-Para Executar o frontend é preciso voltar para a pasta raiz mas é preciso deixar o backend executando então abra um outro terminal e navegue até a pasta frontend e execute os seguintes comandos:
+
+* <h3>Frontend</h3>
+
+Para Executar o frontend é preciso voltar para a pasta raiz mas é deve deixar o backend executando, então abra um outro terminal e navegue até a pasta frontend e execute os seguintes comandos:
 ```
   cd frontend
   // Instalação das dependencias:
   yarn install
   
   // Iniciar a aplicação
-  // yarn start
+  yarn start
 ```
 * <h3>Mobile</h3>
 No Mobile tem algumas formas diferentes para executar, no meu caso eu utilizei o dispositivo fisico, irei listar algumas das formas de se conectar:
@@ -126,7 +129,7 @@ Para executar o mobile é preciso navegar até a pasta mobile e executar os coma
   yarn install
   
   // Iniciar a aplicação
-  // yarn android
+  yarn android // ou yarn ios
 ```
 
 ## Feedback
