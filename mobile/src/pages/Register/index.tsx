@@ -16,7 +16,7 @@ interface Produto {
 const Register: React.FC = () => {
   const formRef = useRef(null);
 
-  const { navigate } = useNavigation();
+  const { goBack } = useNavigation();
 
   async function handleSubmit(item: Produto, { reset }): Promise<void> {
     const response = await api.post('produtos', {
@@ -24,18 +24,42 @@ const Register: React.FC = () => {
       preco: item.preco,
       categoria: item.categoria
     });    
-    console.log(response);  
     reset();
-    navigate('Dashboard');
+    goBack();
   }
 
   return (
     <Container>
       <Titulo>Cadastro de Produto</Titulo>
       <Form ref={formRef} onSubmit={handleSubmit}>
-        <Input name="nome" label="Nome" />
-        <Input name="preco" label="Preço" keyboardType="number-pad" />
-        <Input name="categoria" label="Categoria" />
+        <Input 
+          autoCorrect={false}
+          autoCapitalize="none"
+          keyboardType="default"
+          name="nome"
+          icon="person-outline"
+          placeholder="Nome"
+          returnKeyType="next"
+        />
+        <Input 
+          autoCorrect={false}
+          autoCapitalize="none"
+          keyboardType="numbers-and-punctuation"
+          name="preco"
+          icon="cash-outline"
+          placeholder="Preço"
+          returnKeyType="next" 
+        />
+        <Input 
+          autoCorrect={false}
+          autoCapitalize="none"
+          keyboardType="default"
+          name="categoria"
+          icon="grid-outline"
+          placeholder="Categoria"
+          returnKeyType="send"
+          onSubmitEditing={() => formRef.current?.submitForm()}
+        />
       </Form>
       <AddButton
         onPress={() => formRef.current.submitForm()}
