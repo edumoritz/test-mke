@@ -1,7 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
 import formatValue from '../../utils/formatValue';
+
+
 
 import { View } from 'react-native';
 
@@ -22,6 +24,8 @@ import {
   TituloAdicionar
 } from './styles';
 
+import Register from '../../pages/Register';
+
 interface Produto {
   id: string;
   nome: string;
@@ -31,7 +35,10 @@ interface Produto {
 
 const Dashboard: React.FC = () => {
 
+  
   const { navigate } = useNavigation();
+  
+  // const registerRef = useRef<Register>(null);
 
   const [produtos, setProdutos] = useState<Produto[]>([]);
 
@@ -46,6 +53,7 @@ const Dashboard: React.FC = () => {
   }, [produtos]); 
 
   function handleEdit(item: Produto): void {
+    navigate('Register', item);
   }
 
   function handleDelete(item: Produto): void {

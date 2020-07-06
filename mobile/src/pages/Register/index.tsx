@@ -1,5 +1,5 @@
-import React, { useRef, useCallback, useEffect } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import React, { useRef, useState } from 'react';
+import { useNavigation, useRoute  } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import { Container, Titulo, AddButton, TextButton } from './styles';
 
@@ -14,16 +14,30 @@ interface Produto {
 }
 
 const Register: React.FC = () => {
+
+  // const [nome, setNome] = useState('');
   const formRef = useRef(null);
+
+  const routes = useRoute();
+  const routeParams = routes.params as Produto;
 
   const { goBack } = useNavigation();
 
   async function handleSubmit(item: Produto, { reset }): Promise<void> {
-    const response = await api.post('produtos', {
-      nome: item.nome,
-      preco: item.preco,
-      categoria: item.categoria
-    });    
+    if(!!routeParams) {
+      await api.put(`produtos/${routeParams.id}`, {
+        nome: item.nome,
+        preco: item.preco,
+        categoria: item.categoria
+      }); 
+    } else {
+      await api.post('produtos', {
+        nome: item.nome,
+        preco: item.preco,
+        categoria: item.categoria
+      }); 
+    }
+       
     reset();
     goBack();
   }
@@ -40,6 +54,8 @@ const Register: React.FC = () => {
           icon="person-outline"
           placeholder="Nome"
           returnKeyType="next"
+          // value={nome}
+          // onChangeText={text => setNome(text)}
         />
         <Input 
           autoCorrect={false}

@@ -33,7 +33,7 @@ export const CategoriaList = styled(
   numColumns: 1,
 })`
   flex: 1;  
-  padding: 0 10px;
+  padding: 0 10px;  
 `;
 
 export const Categoria = styled.Text`  
@@ -42,6 +42,7 @@ export const Categoria = styled.Text`
   margin-top: 20px;
   background: #fff;
   padding: 13px 100px;
+  text-align: center;
 `;
 
 export const CategoriaContainer = styled.View`
