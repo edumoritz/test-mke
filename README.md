@@ -62,8 +62,9 @@ Essa aplicação é um exemplo de CRUD com API Rest de produtos
 </p>
 
 <p align="center">  
-  <img src = ".github/lista-mobile.png" width=200>
-  <img src = ".github/lista-mobile-2.png" width=200>
+  <img src = ".github/mob-tela-cad.png" width=200>
+  <img src = ".github/mob-list-prod.png" width=200>
+  <img src = ".github/mob-list-cat.png" width=200>
 </p>
 
 ## Instalação
