@@ -1,21 +1,53 @@
 <mat-card>
   <mat-card-title>Novo Produto</mat-card-title>
-  <form>
+  <form (ngSubmit)="submit()" [formGroup]="formulario">
     <mat-form-field>
-      <input matInput placeholder="Nome" [(ngModel)]="product.nome" name="nome">
+      <input matInput 
+        id="nome" 
+        placeholder="Nome" 
+        formControlName="nome" 
+        [value]="produto?.nome"
+        type="text" 
+      >
     </mat-form-field>
+    <mat-error *ngIf="f.nome.touched && nome.hasError('required')">
+      Este campo é obrigatório
+    </mat-error>
+    <mat-error *ngIf="f.nome.touched && nome.hasError('minlength')">
+      No minimo 3 caracteres
+    </mat-error>
     <mat-form-field>
-      <input matInput placeholder="Preço (R$)" [(ngModel)]="product.preco" name="preco">
+      <input matInput 
+        currencyMask 
+        id="preco" 
+        placeholder="Preço (R$)" 
+        formControlName="preco" 
+        [value]="produto?.preco"
+        [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"
+      >
     </mat-form-field>
+    <mat-error *ngIf="f.preco.touched && preco.hasError('required')">
+      Este campo é obrigatório
+    </mat-error>
     <mat-form-field>
-      <input matInput placeholder="Categoria" [(ngModel)]="product.categoria" name="categoria">
+      <input matInput 
+        id="categoria" 
+        placeholder="Categoria" 
+        formControlName="categoria" 
+        [value]="produto?.categoria"
+        type="text" 
+      >
     </mat-form-field>
-  </form>
+    <mat-error *ngIf="f.categoria.touched && categoria.hasError('required')">
+      Este campo é obrigatório
+    </mat-error>
 
-  <button mat-raised-button (click)="createProduct()" color="primary">
-    Salvar
-  </button>
-  <button mat-raised-button (click)="cancel()">
-    Cancelar
-  </button>
+    <button mat-raised-button type="submit" color="primary" [disabled]="!formulario.valid">
+      Salvar
+    </button>
+    <button mat-raised-button (click)="cancel()">
+      Cancelar
+    </button>
+  </form> 
+  
 </mat-card>

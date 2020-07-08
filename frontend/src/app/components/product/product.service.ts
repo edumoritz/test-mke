@@ -52,6 +52,7 @@ export class ProductService {
   }
 
   update(product: Product): Observable<Product> {
+    console.log(product);
     const url = `${this.api}/${product.id}`;
     return this.http.put<Product>(url, product).pipe(
       map((obj) => obj),
