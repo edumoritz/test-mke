@@ -1,3 +1,4 @@
+import { SearchComponent } from './components/search/search.component';
 import { ProductDeleteComponent } from './components/product/product-delete/product-delete.component';
 import { CategoryReadComponent } from './components/product/category-read/category-read.component';
 import { ProductCreateComponent } from './components/product/product-create/product-create.component';
@@ -19,6 +20,10 @@ const routes: Routes = [
   {
     path: "categorias",
     component: CategoryReadComponent
+  },
+  {
+    path: "search",
+    component: SearchComponent
   },
   {
     path: "produtos/cadastro",

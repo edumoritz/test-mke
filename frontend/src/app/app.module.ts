@@ -19,6 +19,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatSelectModule} from '@angular/material/select';
+import {MatIconModule} from '@angular/material/icon';
 
 import { HeaderComponent } from './components/template/header/header.component';
 import { FooterComponent } from './components/template/footer/footer.component';
@@ -32,6 +35,7 @@ import { CategoryReadComponent } from './components/product/category-read/catego
 import localePt from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
 import { ProductDeleteComponent } from './components/product/product-delete/product-delete.component';
+import { SearchComponent } from './components/search/search.component';
 registerLocaleData(localePt);
 
 @NgModule({
@@ -45,7 +49,8 @@ registerLocaleData(localePt);
     ProductCreateComponent,
     ProductReadComponent,
     CategoryReadComponent,
-    ProductDeleteComponent
+    ProductDeleteComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +70,10 @@ registerLocaleData(localePt);
     MatInputModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatRadioModule,
+    MatSelectModule,
+    MatIconModule
   ],
   providers: [{
     provide: LOCALE_ID,
