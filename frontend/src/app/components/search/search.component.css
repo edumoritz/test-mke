@@ -32,3 +32,12 @@ table {
 th.mat-sort-header-sorted {
   color: black;
 }
+
+.notfound {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+
+  align-items: center;
+  background-color: rgb(226, 226, 226);
+}

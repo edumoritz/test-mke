@@ -22,6 +22,8 @@ import { MatSortModule } from '@angular/material/sort';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
 import {MatIconModule} from '@angular/material/icon';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 import { HeaderComponent } from './components/template/header/header.component';
 import { FooterComponent } from './components/template/footer/footer.component';
@@ -73,7 +75,9 @@ registerLocaleData(localePt);
     MatSortModule,
     MatRadioModule,
     MatSelectModule,
-    MatIconModule
+    MatIconModule,
+    MatChipsModule,
+    MatAutocompleteModule
   ],
   providers: [{
     provide: LOCALE_ID,

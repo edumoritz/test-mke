@@ -11,11 +11,24 @@
 
   <mat-form-field>
     <mat-label>Filtro</mat-label>
-    <input matInput type="search" class="search-input" [(ngModel)]="valueInput">
-    <button mat-button *ngIf="valueInput" matSuffix mat-icon-button aria-label="Clear" (click)="valueInput=''">
-      <mat-icon>close</mat-icon>
-    </button>
+
+      <input matInput 
+        class="search-input" 
+        type="search"
+        [(ngModel)]="valueInput"
+        [matAutocomplete]="auto"
+      >
+      <button mat-button *ngIf="valueInput" matSuffix mat-icon-button aria-label="Clear" (click)="valueInput=''">
+        <mat-icon>close</mat-icon>
+      </button>
+
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let register of registers" [value]="register">
+          {{register}}
+        </mat-option>
+      </mat-autocomplete>
   </mat-form-field>
+  
 
   <button mat-icon-button 
     class="example-icon" 
@@ -26,7 +39,7 @@
   </button>
 </mat-toolbar>
 
-<div >
+<div *ngIf="dataSource.data.length > 0">
 
   <mat-form-field appearance="fill">
     <mat-label>Ordenar por</mat-label>
@@ -67,6 +80,10 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
-  </table>
+  </table> 
 
+</div>
+
+<div *ngIf="dataSource.data.length == 0 && isLoading == false" class="notfound">
+  {{message}}  
 </div>

@@ -1,3 +1,4 @@
+import { EMPTY } from 'rxjs';
 import { ProductService } from './../product/product.service';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
@@ -18,13 +19,16 @@ export interface PeriodicElement {
 export class SearchComponent implements OnInit {
 
   produtos: Product[] = [];
-  registerInput: string[] = [];
+  registers: string[] = [];
 
   valueInput: string;
   optionFilter: string = 'Produtos';
 
   valueOrder: string;
   optionSelected = false;
+
+  isLoading = true;
+  message: string;
 
   seasons: string[] = ['Produtos', 'Categorias'];
   displayedColumns: string[] = ['id', 'nome', 'preco', 'categoria'];
@@ -35,7 +39,7 @@ export class SearchComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.loadAll();
+    this.loadAll();       
   }
 
   loadAll() {
@@ -45,32 +49,47 @@ export class SearchComponent implements OnInit {
         this.dynamicSorting('nome')
       )
       this.dataSource.data = this.produtos;
+      this.notFound('Não existe produtos cadastrados.', this.dataSource.data.length);
+      
     });
-
+    
     return this.dataSource.data
   }
 
-  onSubmit() {
+  onSubmit() {    
     const filter = this.aplicarFiltro();
     this.dataSource.data = filter.sort(
       this.dynamicSorting('nome')
-    )
+    )    
   }
 
-  aplicarFiltro() {    
+  notFound(msg: string, lenght: number) {
+    if (lenght == 0) {
+      this.isLoading = false;
+      this.message = msg;
+    }
+  }
+
+  aplicarFiltro() {     
     var filterValue = '';
     if (this.valueInput) {
       filterValue = this.valueInput.trim().toLowerCase();
-      this.registerInput.push(filterValue);
-    } 
+      const theSame = this.registers.findIndex(item => item === filterValue);
+      if (theSame < 0) this.registers.push(filterValue);
+    }     
     
+    var typeFilter: Product[];
     if (this.optionFilter === 'Produtos') {
-      return this.produtos
-        .filter(item => item.nome.includes(filterValue))
+      typeFilter = this.produtos
+      .filter(item => item.nome.includes(filterValue))
     } else {
-      return this.produtos
+      typeFilter = this.produtos
         .filter(item => item.categoria.includes(filterValue))
     }
+
+    this.notFound('Ops... não conseguimos encontrar o que vc pediu :(', typeFilter.length);
+    
+    return typeFilter;
 
   }
 
