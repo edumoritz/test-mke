@@ -57,10 +57,13 @@ export class SearchComponent implements OnInit {
     )
   }
 
-  aplicarFiltro() {
-    const filterValue = this.valueInput.trim().toLowerCase();
-    this.registerInput.push(filterValue);
-
+  aplicarFiltro() {    
+    var filterValue = '';
+    if (this.valueInput) {
+      filterValue = this.valueInput.trim().toLowerCase();
+      this.registerInput.push(filterValue);
+    } 
+    
     if (this.optionFilter === 'Produtos') {
       return this.produtos
         .filter(item => item.nome.includes(filterValue))
