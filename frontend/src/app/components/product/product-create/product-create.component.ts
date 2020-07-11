@@ -1,32 +1,33 @@
 import { Product } from './../product.model';
 import { ProductService } from './../product.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-product-create',
   templateUrl: './product-create.component.html',
   styleUrls: ['./product-create.component.css']
 })
-export class ProductCreateComponent implements OnInit {
+export class ProductCreateComponent implements OnInit, OnDestroy {
 
   formulario: FormGroup;
   produto: Product;
   isUpdate: boolean;
+  isLoading: boolean =  false;
 
   constructor(
     private productService: ProductService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
     this.isUpdate = !!this.route.snapshot.paramMap.get('id');
-
     this.createForm();
-
   }
 
   createForm(): void {
@@ -47,8 +48,8 @@ export class ProductCreateComponent implements OnInit {
     });
   }
 
-
   submit() {
+    this.isLoading = true;
     const form = this.formulario.value;
     
     if (this.isUpdate) {
@@ -74,8 +75,6 @@ export class ProductCreateComponent implements OnInit {
       });
     }
     
-
-    
     this.formulario.reset();
   };
 
@@ -87,5 +86,9 @@ export class ProductCreateComponent implements OnInit {
   cancel(): void {
     this.router.navigate(['/produtos'])
   };
+
+  ngOnDestroy(): void {
+    this.isLoading = false;
+  }
 
 }

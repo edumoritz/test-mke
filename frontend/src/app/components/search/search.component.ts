@@ -1,4 +1,4 @@
-import { EMPTY } from 'rxjs';
+import { HeaderService } from './../template/header/header.service';
 import { ProductService } from './../product/product.service';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
@@ -33,8 +33,15 @@ export class SearchComponent implements OnInit {
   dataSource: MatTableDataSource<Product> = new MatTableDataSource();
 
   constructor(
-    private service: ProductService
-  ) { }
+    private service: ProductService, 
+    private headerService: HeaderService
+  ) { 
+    headerService.HeaderData = {
+      title: 'Pesquisa de Produtos',
+      icon: 'search',
+      routeUrl: '/search'
+    }
+  }
 
   ngOnInit() {
     this.loadAll();       

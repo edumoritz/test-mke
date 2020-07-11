@@ -37,8 +37,8 @@ Essa aplicação é um exemplo de CRUD com API Rest de produtos
 
 ## 📖 Índice
 
-- [Tecnologias](#tecnologias)
-- [Funcionalidades](#funcionalidades)
+- [Tecnologias](#rocket-tecnologias)
+- [Funcionalidades](#bookmark-funcionalidades)
 - [Instalação](#instalação)
 - [Feedback](#feedback)
 
@@ -50,22 +50,15 @@ Essa aplicação é um exemplo de CRUD com API Rest de produtos
 
 ## :bookmark: Funcionalidades
 
-* POST: É possível realizar cadastro de produtos com ou sem categoria, caso informe a categoria ela será analisada pelo backend, se não existir uma categoria com o mesmo nome ela será gravada na "tabela" de categorias. 
-* GET: Lista todos os produtos e categorias cadastrados.
-* GET/ID: Retorna um produto com a sua categoria.
-* PUT/ID: Edita o produto enviado na requisição.
-* DELETE: Exclui o produto.
+* É possível realizar CRUD de produtos com categorias, caso a categoria não exista será criada uma nova.
+* É possível realizar pesquisas, filtros e ordenações na lista de produtos.
 
 <p align="center">
-  <img src = ".github/cadprod.png" width=700>
-  <img src = ".github/listprod.png" width=700>
+  <img src = ".github/frontcreate.png" width=700>
+  <img src = ".github/frontsearch.png" width=700>
 </p>
 
-<p align="center">  
-  <img src = ".github/mob-tela-cad.png" width=200>
-  <img src = ".github/mob-list-prod.png" width=200>
-  <img src = ".github/mob-list-cat.png" width=200>
-</p>
+
 
 ## Instalação
 
@@ -77,11 +70,10 @@ Logo após clonar é preciso entrar na pasta do projeto:
 ```
   cd test-mkr
 ```
-* <h3>Backend</h3>
 Dentro dessa pasta irá conter 3 pastas que são: backend, frontend e mobile.
-Sendo assim é preciso primeiro entrar na pasta backend e executar a instalação para assim executá-lo com os seguintes comandos:
-```
-  cd backend
+* <h3>Backend</h3>
+Sendo assim deve primeiro acessar na pasta backend e executar a instalação para depois realizar a inicialização com os comandos:
+```  cd backend
   // Instalação das dependencias:
   yarn install
   
@@ -93,8 +85,7 @@ Com o backend rodando é possível realizar testes com as ferramentas do tipo po
 * <h3>Frontend</h3>
 
 Para Executar o frontend é preciso voltar para a pasta raiz mas, deve deixar o backend executando, então abra um outro terminal e navegue até a pasta frontend e execute os seguintes comandos:
-```
-  cd frontend
+```  cd frontend
   // Instalação das dependencias:
   yarn install
   
@@ -102,7 +93,7 @@ Para Executar o frontend é preciso voltar para a pasta raiz mas, deve deixar o 
   yarn start
 ```
 * <h3>Mobile</h3>
-No Mobile tem algumas formas diferentes para executar, no meu caso eu utilizei o dispositivo físico, irei listar algumas das formas de conectar:
+No Mobile tem algumas formas diferentes para executar, no meu caso eu utilizei o dispositivo físico e o emulador android, irei listar algumas das formas de conectar:
 
 * Com SDK executar: adb reverse tcp:3333 tcp:3333
 * iOS com Emulador: localhost

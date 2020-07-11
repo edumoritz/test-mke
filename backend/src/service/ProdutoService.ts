@@ -22,6 +22,9 @@ class ProdutoService {
     if (nome === '' || preco === null)
       throw new AppError('Deve conter nome e preço.');
 
+    if(typeof preco !== 'number') 
+      throw new AppError('Preço deve ser numérico.');
+
     const findCategoria = categorias.filter(c => c === categoria);
 
     if (findCategoria.length <= 0) {
