@@ -25,10 +25,8 @@ export class SearchComponent implements OnInit {
   optionFilter: string = 'Produtos';
 
   valueOrder: string;
-  optionSelected = false;
-
-  isLoading = true;
   message: string;
+  isLoading = true;
 
   seasons: string[] = ['Produtos', 'Categorias'];
   displayedColumns: string[] = ['id', 'nome', 'preco', 'categoria'];
@@ -45,22 +43,18 @@ export class SearchComponent implements OnInit {
   loadAll() {
     this.service.read().subscribe(prod => {
       this.produtos = prod["produtos"];
-      this.produtos.sort(
-        this.dynamicSorting('nome')
-      )
-      this.dataSource.data = this.produtos;
-      this.notFound('Não existe produtos cadastrados.', this.dataSource.data.length);
-      
+      this.aplicarFiltro('nome');
+      this.notFound('Não existe produtos cadastrados.', this.dataSource.data.length);      
     });
     
     return this.dataSource.data
   }
 
-  onSubmit() {    
-    const filter = this.aplicarFiltro();
-    this.dataSource.data = filter.sort(
-      this.dynamicSorting('nome')
-    )    
+  onSubmit() {
+    this.valueOrder = '';
+    var keyOrder = this.optionFilter === 'Produtos'
+      ? 'nome' : 'categoria';
+    this.aplicarFiltro(keyOrder);
   }
 
   notFound(msg: string, lenght: number) {
@@ -70,7 +64,7 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  aplicarFiltro() {     
+  aplicarFiltro(key, order = 'asc') {     
     var filterValue = '';
     if (this.valueInput) {
       filterValue = this.valueInput.trim().toLowerCase();
@@ -81,15 +75,17 @@ export class SearchComponent implements OnInit {
     var typeFilter: Product[];
     if (this.optionFilter === 'Produtos') {
       typeFilter = this.produtos
-      .filter(item => item.nome.includes(filterValue))
+      .filter(item => item.nome.includes(filterValue));
     } else {
       typeFilter = this.produtos
-        .filter(item => item.categoria.includes(filterValue))
+        .filter(item => item.categoria.includes(filterValue));
     }
 
     this.notFound('Ops... não conseguimos encontrar o que vc pediu :(', typeFilter.length);
-    
-    return typeFilter;
+
+    this.dataSource.data = typeFilter.sort(
+      this.dynamicSorting(key, order)
+    );       
 
   }
 
@@ -114,11 +110,7 @@ export class SearchComponent implements OnInit {
       default: break;
     }
 
-    const filter = this.aplicarFiltro();
-    this.dataSource.data = filter.sort(
-      this.dynamicSorting(keyOrder, typeOrder)
-    )
-
+    this.aplicarFiltro(keyOrder, typeOrder);
   }
 
   dynamicSorting(key, order = 'asc') {
