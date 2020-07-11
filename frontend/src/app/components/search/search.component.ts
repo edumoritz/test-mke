@@ -1,7 +1,6 @@
-import { MatSelectModule } from '@angular/material/select';
 import { ProductService } from './../product/product.service';
-import {Component, OnInit} from '@angular/core';
-import {MatTableDataSource} from '@angular/material/table';
+import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 import { Product } from '../product/product.model';
 
 export interface PeriodicElement {
@@ -19,82 +18,84 @@ export interface PeriodicElement {
 export class SearchComponent implements OnInit {
 
   produtos: Product[] = [];
-  filtro: Product[] = [];
-  registerInput: string[] = [];  
+  registerInput: string[] = [];
 
-  isLoading: Boolean = false;
-  selectedCategoria: string;
   valueInput: string;
-  optionFilter: string;
+  optionFilter: string = 'Produtos';
 
   valueOrder: string;
   optionSelected = false;
 
   seasons: string[] = ['Produtos', 'Categorias'];
   displayedColumns: string[] = ['id', 'nome', 'preco', 'categoria'];
-  dataSource = new MatTableDataSource(this.produtos);
+  dataSource: MatTableDataSource<Product> = new MatTableDataSource();
 
-  constructor(private service: ProductService) { }
+  constructor(
+    private service: ProductService
+  ) { }
 
   ngOnInit() {
-    this.loadAll();   
+    this.loadAll();
   }
 
   loadAll() {
     this.service.read().subscribe(prod => {
       this.produtos = prod["produtos"];
-    });
-  }
-
-  onSubmit() {       
-    this.isLoading = true;
-    this.registerInput.push(this.valueInput); 
-
-    this.filtro = this.aplicarFiltro(this.optionFilter);
-
-    this.dataSource = new MatTableDataSource(
-      this.filtro.sort(
+      this.produtos.sort(
         this.dynamicSorting('nome')
       )
-    );
-  }  
+      this.dataSource.data = this.produtos;
+    });
 
-  aplicarFiltro(option: string) {      
-    if(option === 'Produtos'){
+    return this.dataSource.data
+  }
+
+  onSubmit() {
+    const filter = this.aplicarFiltro();
+    this.dataSource.data = filter.sort(
+      this.dynamicSorting('nome')
+    )
+  }
+
+  aplicarFiltro() {
+    const filterValue = this.valueInput.trim().toLowerCase();
+    this.registerInput.push(filterValue);
+
+    if (this.optionFilter === 'Produtos') {
       return this.produtos
-        .filter(item => item.nome.includes(this.valueInput))
+        .filter(item => item.nome.includes(filterValue))
     } else {
       return this.produtos
-        .filter(item => item.categoria.includes(this.valueInput))
-    }    
-  }  
+        .filter(item => item.categoria.includes(filterValue))
+    }
 
-  applyOrder() {   
+  }
+
+  applyOrder() {
     var keyOrder = this.optionFilter === 'Produtos'
       ? 'nome' : 'categoria';
     var typeOrder = 'asc';
 
-    switch(this.valueOrder) {
+    switch (this.valueOrder) {
       case 'alf_asc':
-      break;
+        break;
       case 'alf_desc':
         typeOrder = 'desc';
-      break;
+        break;
       case 'vlr_asc':
         keyOrder = 'preco';
-      break;
+        break;
       case 'vlr_desc':
         keyOrder = 'preco';
         typeOrder = 'desc';
-      break;
-      default:break;
+        break;
+      default: break;
     }
 
-    this.dataSource = new MatTableDataSource(
-      this.filtro.sort(
-        this.dynamicSorting(keyOrder, typeOrder)
-      )
-    );
+    const filter = this.aplicarFiltro();
+    this.dataSource.data = filter.sort(
+      this.dynamicSorting(keyOrder, typeOrder)
+    )
 
   }
 
@@ -103,12 +104,12 @@ export class SearchComponent implements OnInit {
       if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
         return 0;
       }
-  
+
       const varA = (typeof a[key] === 'string')
         ? a[key].toUpperCase() : a[key];
       const varB = (typeof b[key] === 'string')
         ? b[key].toUpperCase() : b[key];
-  
+
       let comparation = 0;
       if (varA > varB) {
         comparation = 1;
@@ -121,5 +122,7 @@ export class SearchComponent implements OnInit {
     };
   }
 
-
+  getTotalCost() {
+    return this.dataSource.data.map(t => t.preco).reduce((acc, value) => acc + value, 0);
+  }
 }

@@ -15,6 +15,10 @@
   margin-bottom: 10px;
 }
 
+tr.mat-footer-row {
+  font-weight: bold;
+}
+
 .search {
   display: flex;
   flex-direction: column;
