@@ -95,9 +95,9 @@ const Dashboard: React.FC = () => {
           renderItem={({ item }) => (
             <Produto>
               
-              <ProdutoNome>{item.nome}</ProdutoNome>
-              <ProdutoCategoria>{item.categoria}</ProdutoCategoria>
-              <ProdutoPreco>{formatValue(item.preco)}</ProdutoPreco>
+              <ProdutoNome>{item.nome.toString()}</ProdutoNome>
+              <ProdutoCategoria>{item.categoria.toString()}</ProdutoCategoria>
+              <ProdutoPreco>{formatValue(item.preco).toString()}</ProdutoPreco>
               <ButtonContainer>
                 <Button
                   onPress={() => {handleEdit(item)}}

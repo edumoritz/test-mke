@@ -2,34 +2,20 @@ import React, {
   useState,
   useCallback,
   useRef,
-  useEffect
+  useEffect,
+  useImperativeHandle,
+  forwardRef
 } from 'react';
-import { TextInputProps } from 'react-native';
 import { useField } from '@unform/core';
 
 import { Container, TextInput, Icon } from './styles';
 
-interface InputProps extends TextInputProps {
-  name: string;
-  icon: string;
-}
-
-interface InputValueReference {
-  value: string;
-}
-
-interface InputRef {
-  focus(): void;
-}
-
-const Input: React.RefForwardingComponent<InputRef, InputProps> = (
-  { name, icon, ...rest },
-  ref,
+const Input = (
+  { name, icon, onChangeText, rawValue, ...rest }, ref
 ) => {
-  const inputElementRef = useRef<any>(null);
+  const inputRef = useRef(null);
 
   const { registerField, defaultValue = '', fieldName, error } = useField(name);
-  const inputValueRef = useRef<InputValueReference>({ value: defaultValue });
 
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
@@ -40,24 +26,44 @@ const Input: React.RefForwardingComponent<InputRef, InputProps> = (
   const handleInputBlur = useCallback(() => {
     setIsFocused(false);
 
-    setIsFilled(!!inputValueRef.current.value);
+    setIsFilled(!!inputRef.current.value);
   }, []);
 
+  useImperativeHandle(ref, () => ({
+    focus() {
+      inputRef.current.focus();
+    },
+  }));
+
   useEffect(() => {
-    registerField<string>({
+    inputRef.current.value = defaultValue;
+  }, [defaultValue]);
+
+  useEffect(() => {
+    registerField({
       name: fieldName,
-      ref: inputValueRef.current,
-      path: 'value',
-      setValue(value) {
-        inputValueRef.current.value = value;
-        inputElementRef.current.setNativeProps({ text: value });
+      ref: inputRef.current,
+      clearValue(ref) {
+        ref.value = '';
+        ref.clear();
       },
-      clearValue() {
-        inputValueRef.current.value = '';
-        inputElementRef.current.clear();
+      setValue(ref, value) {
+        ref.setNativeProps({ text: value });
+        inputRef.current.value = value;
+      },
+      getValue(ref) {
+        return rawValue || ref.value;
       },
     });
-  }, [fieldName, registerField]);
+  }, [fieldName, rawValue, registerField]);
+
+  const handleOnChange = useCallback(
+    text => {
+      if (inputRef.current) inputRef.current.value = text;
+      if (onChangeText) onChangeText(text);
+    },
+    [onChangeText],
+  );
 
   return (
     <Container isFocused={isFocused} isErrored={!!error}>
@@ -67,19 +73,17 @@ const Input: React.RefForwardingComponent<InputRef, InputProps> = (
         color={isFocused || isFilled ? '#fff' : '#666360'}
       />
       <TextInput
-        ref={inputElementRef}
+        ref={inputRef}
         keyboardAppearance="dark"
         placeholderTextColor="#666360"
         defaultValue={defaultValue}
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
-        onChangeText={value => {
-          inputValueRef.current.value = value;
-        }}
+        onChangeText={handleOnChange}
         {...rest}
       />
     </Container>
   );
 };
 
-export default Input;
+export default forwardRef(Input);
