@@ -83,10 +83,20 @@ export class SearchComponent implements OnInit {
     var typeFilter: Product[];
     if (this.optionFilter === 'Produtos') {
       typeFilter = this.produtos
-      .filter(item => item.nome.toUpperCase().includes(filterValue.toUpperCase()));
+      .filter(item => 
+        item.nome        
+        .normalize("NFD").replace(/[^a-zA-Zs]/g, "")
+        .toUpperCase()
+        .includes(filterValue.toUpperCase())
+      );
     } else {
       typeFilter = this.produtos
-        .filter(item => item.categoria.toUpperCase().includes(filterValue.toUpperCase()));
+        .filter(item => 
+          item.categoria
+          .normalize("NFD").replace(/[^a-zA-Zs]/g, "")
+          .toUpperCase()
+          .includes(filterValue.toUpperCase())
+        );
     }
 
     this.notFound('Ops... não conseguimos encontrar o que vc pediu :(', typeFilter.length);
