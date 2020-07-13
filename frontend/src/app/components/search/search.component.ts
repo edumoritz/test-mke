@@ -48,6 +48,7 @@ export class SearchComponent implements OnInit {
   }
 
   loadAll() {
+    this.valueInput = '';
     this.service.read().subscribe(prod => {
       this.produtos = prod["produtos"];
       this.aplicarFiltro('nome');
@@ -74,7 +75,7 @@ export class SearchComponent implements OnInit {
   aplicarFiltro(key, order = 'asc') {     
     var filterValue = '';
     if (this.valueInput) {
-      filterValue = this.valueInput.trim().toLowerCase();
+      filterValue = this.valueInput.trim();
       const theSame = this.registers.findIndex(item => item === filterValue);
       if (theSame < 0) this.registers.push(filterValue);
     }     

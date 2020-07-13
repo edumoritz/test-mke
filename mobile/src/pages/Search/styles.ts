@@ -12,6 +12,7 @@ interface Produto {
 export const Container = styled.SafeAreaView`
   flex: 1;
   align-items: center;
+  position: absolute;
 `;
 
 export const Toolbar = styled.View`

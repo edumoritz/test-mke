@@ -18,7 +18,7 @@
         [(ngModel)]="valueInput"
         [matAutocomplete]="auto"
       >
-      <button mat-button *ngIf="valueInput" matSuffix mat-icon-button aria-label="Clear" (click)="valueInput=''">
+      <button mat-button *ngIf="valueInput" matSuffix mat-icon-button aria-label="Clear" (click)="loadAll()">
         <mat-icon>close</mat-icon>
       </button>
 
