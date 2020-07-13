@@ -2,9 +2,6 @@ import React, { useCallback, useEffect, useState, useRef } from 'react';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
 import formatValue from '../../utils/formatValue';
-
-
-
 import { View } from 'react-native';
 
 import api from '../../services/api';
@@ -24,7 +21,6 @@ import {
   TituloAdicionar
 } from './styles';
 
-import Register from '../../pages/Register';
 
 interface Produto {
   id: string;
@@ -35,11 +31,7 @@ interface Produto {
 
 const Dashboard: React.FC = () => {
 
-  
   const { navigate } = useNavigation();
-  
-  // const registerRef = useRef<Register>(null);
-
   const [produtos, setProdutos] = useState<Produto[]>([]);
 
   useEffect(() => {
@@ -72,15 +64,19 @@ const Dashboard: React.FC = () => {
     navigate('Category');
   }, [navigate]);
 
+  const navigateToSearch = useCallback(() => {
+    navigate('Search');
+  }, [navigate]);
+
   return (
     <Container>
 
       <Toolbar>
         <Titulo>Lista de Produtos</Titulo>
           <Button
-            onPress={navigateToCategory}
+            onPress={navigateToSearch}
           >
-            <FeatherIcon size={30} name="package" color="#312e38" />
+            <FeatherIcon size={30} name="search" color="#312e38" />
           </Button>
       </Toolbar>  
       
@@ -95,9 +91,9 @@ const Dashboard: React.FC = () => {
           renderItem={({ item }) => (
             <Produto>
               
-              <ProdutoNome>{item.nome.toString()}</ProdutoNome>
-              <ProdutoCategoria>{item.categoria.toString()}</ProdutoCategoria>
-              <ProdutoPreco>{formatValue(item.preco).toString()}</ProdutoPreco>
+              <ProdutoNome>{item.nome}</ProdutoNome>
+              <ProdutoCategoria>{item.categoria}</ProdutoCategoria>
+              <ProdutoPreco>{formatValue(item.preco)}</ProdutoPreco>
               <ButtonContainer>
                 <Button
                   onPress={() => {handleEdit(item)}}
