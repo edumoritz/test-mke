@@ -1,8 +1,9 @@
 import { HeaderService } from './../template/header/header.service';
 import { ProductService } from './../product/product.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Product } from '../product/product.model';
+import { MatRadioChange } from '@angular/material/radio';
 
 export interface PeriodicElement {
   name: string;
@@ -21,7 +22,7 @@ export class SearchComponent implements OnInit {
   produtos: Product[] = [];
   registers: string[] = [];
 
-  valueInput: string;
+  valueInput: string;  
   optionFilter: string = 'Produtos';
 
   valueOrder: string;
@@ -44,7 +45,7 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadAll();       
+    this.loadAll();      
   }
 
   loadAll() {
@@ -59,10 +60,9 @@ export class SearchComponent implements OnInit {
   }
 
   onSubmit() {
-    this.valueOrder = '';
     var keyOrder = this.optionFilter === 'Produtos'
       ? 'nome' : 'categoria';
-    this.aplicarFiltro(keyOrder);
+    this.aplicarFiltro(keyOrder, this.valueOrder);
   }
 
   notFound(msg: string, lenght: number) {
@@ -75,13 +75,13 @@ export class SearchComponent implements OnInit {
   aplicarFiltro(key, order = 'asc') {     
     var filterValue = '';
     if (this.valueInput) {
-      filterValue = this.valueInput.trim();
+      filterValue = this.valueInput.trim().replace(/[^a-zA-Zs]/g, "");
       const theSame = this.registers.findIndex(item => item === filterValue);
       if (theSame < 0) this.registers.push(filterValue);
     }     
     
     var typeFilter: Product[];
-    if (this.optionFilter === 'Produtos') {
+    if (key === 'nome') {
       typeFilter = this.produtos
       .filter(item => 
         item.nome        
@@ -101,9 +101,11 @@ export class SearchComponent implements OnInit {
 
     this.notFound('Ops... não conseguimos encontrar o que vc pediu :(', typeFilter.length);
 
+
     this.dataSource.data = typeFilter.sort(
       this.dynamicSorting(key, order)
-    );       
+    ); 
+    this.applyOrder();     
 
   }
 
@@ -128,7 +130,9 @@ export class SearchComponent implements OnInit {
       default: break;
     }
 
-    this.aplicarFiltro(keyOrder, typeOrder);
+    this.dataSource.data = this.dataSource.data.sort(
+      this.dynamicSorting(keyOrder, typeOrder)
+    );   
   }
 
   dynamicSorting(key, order = 'asc') {
@@ -156,5 +160,9 @@ export class SearchComponent implements OnInit {
 
   getTotalCost() {
     return this.dataSource.data.map(t => t.preco).reduce((acc, value) => acc + value, 0);
+  }
+
+  onChange(mrChange: MatRadioChange) {
+    this.applyOrder();
   }
 }

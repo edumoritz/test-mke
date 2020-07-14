@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
   
-  <mat-radio-group  aria-label="Select an option" [(ngModel)]="optionFilter">
+  <mat-radio-group  aria-label="Select an option" [(ngModel)]="optionFilter" (change)="onChange($event)">
     Filtrar por: 
     <mat-radio-button *ngFor="let season of seasons" [value]="season">
       {{season}}
