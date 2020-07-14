@@ -7,6 +7,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { HomeComponent } from './views/home/home.component';
 import { ProductCrudComponent } from './views/product-crud/product-crud.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
   {
@@ -37,7 +38,7 @@ const routes: Routes = [
     path: "produtos/deletar/:id",
     component: ProductDeleteComponent
   },
-  { path: '**', redirectTo: '/' }
+  { path: '**', component: NotFoundComponent }
 ];
 
 @NgModule({
