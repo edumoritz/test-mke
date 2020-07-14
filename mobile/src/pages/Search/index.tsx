@@ -1,10 +1,11 @@
-import React, { useCallback, useEffect, useState }  from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
 import { View, StyleSheet } from 'react-native';
-import { Searchbar, Portal, FAB, Provider  } from 'react-native-paper';
+import { Searchbar, Portal, FAB, Provider } from 'react-native-paper';
 
 import formatValue from '../../utils/formatValue';
+import dynamicSorting from '../../utils/dynamicSorting';
 import api from '../../services/api';
 
 import {
@@ -32,29 +33,77 @@ const Search: React.FC = () => {
 
   const { navigate } = useNavigation();
   const [state, setState] = React.useState({ open: false });
+  const [option, setOption] = React.useState('');
   const [produtos, setProdutos] = useState<Produto[]>([]);
   const [tudo, setTudo] = useState<Produto[]>([]);
   const [searchQuery, setSearchQuery] = React.useState('');
 
   const onChangeSearch = query => {
-    !!query 
-      ? setProdutos(produtos.filter(item => item.nome.includes(query)))
+    query = query.replace(/[^a-zA-Zs]/g, "");
+
+    !!query
+      ? setProdutos(filterFor(query))
       : setProdutos(tudo);
-    
+
     setSearchQuery(query);
   }
 
-  const onStateChange = ({ open }) => setState({ open });
+  function filterFor(query) {
+    if(option === "Produto") {
+      return produtos.filter(
+        item => item.nome 
+          .normalize("NFD")
+          .replace(/[^a-zA-Zs]/g, "")
+          .toUpperCase()
+          .includes(query.toUpperCase()))
+    } else {
+      return produtos.filter(
+        item => item.categoria 
+          .normalize("NFD")
+          .replace(/[^a-zA-Zs]/g, "")
+          .toUpperCase()
+          .includes(query.toUpperCase()))
+    }
+  }
+
+  const onStateChange = ({ open }) => {
+    setState({ open });
+  }
   const { open } = state;
 
   useEffect(() => {
     async function loadProdutos(): Promise<void> {
-      const response = await api.get('/produtos');      
+      const response = await api.get('/produtos');
       setProdutos(response.data["produtos"]);
       setTudo(response.data["produtos"])
     }
-    loadProdutos();    
-  }, []); 
+    loadProdutos();
+    setOption('Produto');
+  }, [])
+
+  function applyOrder(list: Produto[], orderParam: string) {
+    var keyOrder = option === 'Produto'
+      ? 'nome' : 'categoria';
+    var typeOrder = 'asc';
+
+    switch (orderParam) {
+      case 'alf_asc':
+        break;
+      case 'alf_desc':
+        typeOrder = 'desc';
+        break;
+      case 'vlr_asc':
+        keyOrder = 'preco';
+        break;
+      case 'vlr_desc':
+        keyOrder = 'preco';
+        typeOrder = 'desc';
+        break;
+      default: break;
+    }
+
+    setProdutos(list.sort(dynamicSorting(keyOrder, typeOrder)))
+  }
 
 
   const navigateToDashboard = useCallback(() => {
@@ -62,90 +111,101 @@ const Search: React.FC = () => {
   }, [navigate]);
 
   return (
-    <Container>
+    <>
+      <Container>
 
-      <Toolbar>
+        <Toolbar>
           <ButtonStyles
             onPress={navigateToDashboard}
           >
             <FeatherIcon size={30} name="chevron-left" color="#312e38" />
           </ButtonStyles>
-        <Titulo>Pesquisa de Produtos</Titulo>          
-      </Toolbar>
-           
+          <Titulo>Pesquisa de Produtos</Titulo>
+        </Toolbar>
 
-      <SearchContainer>
-        <Searchbar  
+
+        <SearchContainer>
+          <Searchbar
             accessibilityStates="selected"
             placeholder="Pesquisar produtos"
             onChangeText={onChangeSearch}
             value={searchQuery}
-          />  
-      </SearchContainer>
-      
-      <ProdutoContainer>
-        <ProdutoList
-          data={produtos}
-          keyExtractor={item => item.id}
-          ListFooterComponent={<View />}
-          ListFooterComponentStyle={{
-            height: 80,
-          }}
-          renderItem={({ item }) => (
-            <Produto>
-              
-              <ProdutoNome>{item.nome}</ProdutoNome>
-              <ProdutoCategoria>{item.categoria}</ProdutoCategoria>
-              <ProdutoPreco>{formatValue(item.preco)}</ProdutoPreco>
-            </Produto>
-          )}
-        />
-
-      </ProdutoContainer>
-
-      <Provider>
-        <Portal>
-          <FAB.Group style={styles.fab}
-            visible={true}
-            open={open}
-            icon={open ? 'clippy' : 'filter'}
-            actions={[
-              { 
-                icon: 'folder-move', 
-                label: 'Filtrar por categoria',
-                onPress: () => console.log('Pressed add') },
-              {
-                icon: 'order-alphabetical-ascending',
-                label: 'A - Z',
-                onPress: () => console.log('Pressed star'),
-              },
-              {
-                icon: 'order-alphabetical-descending',
-                label: 'Z - A',
-                onPress: () => console.log('Pressed email'),
-              },
-              {
-                icon: 'order-numeric-descending',
-                label: 'Maior valor',
-                onPress: () => console.log('Pressed notifications'),
-              },
-              {
-                icon: 'order-numeric-ascending',
-                label: 'Menor valor',
-                onPress: () => console.log('Pressed notifications'),
-              },
-            ]}
-            onStateChange={onStateChange}
-            onPress={() => {
-              if (open) {
-                // do something if the speed dial is open
-              }
-            }}
           />
-        </Portal>
-    </Provider>      
+        </SearchContainer>
 
-    </Container>
+        <ProdutoContainer>
+          <ProdutoList
+            data={produtos}
+            keyExtractor={item => item.id}
+            ListFooterComponent={<View />}
+            ListFooterComponentStyle={{
+              height: 80,
+            }}
+            renderItem={({ item }) => (
+              <Produto>
+
+                <ProdutoNome>{item.nome}</ProdutoNome>
+                <ProdutoCategoria>{item.categoria}</ProdutoCategoria>
+                <ProdutoPreco>{formatValue(item.preco)}</ProdutoPreco>
+              </Produto>
+            )}
+          />
+
+        </ProdutoContainer>
+
+        <Provider>
+
+          <Portal>
+            <FAB.Group style={styles.fab}
+              visible={true}
+              open={open}
+              icon={open ? 'clippy' : 'filter'}
+              actions={[
+                {
+                  icon: 'folder-move',
+                  label: `Filtrar por ${option === 'Produto' ? 'Categoria' : 'Produto'}`,
+                  onPress: () => {
+                    if (option === "Categoria") setOption("Produto");
+                    else setOption("Categoria")
+                    // applyFilter('alf_asc')
+                    applyOrder(filterFor(searchQuery), 'alf_asc');
+                  }
+                },
+                {
+                  icon: 'order-alphabetical-ascending',
+                  label: 'A - Z',
+                  onPress: () => applyOrder(filterFor(searchQuery), 'alf_asc'),
+                },
+                {
+                  icon: 'order-alphabetical-descending',
+                  label: 'Z - A',
+                  onPress: () => applyOrder(filterFor(searchQuery), 'alf_desc'),
+                },
+                {
+                  icon: 'order-numeric-descending',
+                  label: 'Maior valor',
+                  onPress: () => applyOrder(filterFor(searchQuery), 'vlr_desc'),
+                },
+                {
+                  icon: 'order-numeric-ascending',
+                  label: 'Menor valor',
+                  onPress: () => applyOrder(filterFor(searchQuery), 'vlr_asc'),
+                },
+              ]}
+              onStateChange={onStateChange}
+              onPress={() => {
+                if (open) {
+                  console.log(state)
+                } else {
+                  console.log(option)
+                }
+              }}
+            />
+          </Portal>
+        </Provider>
+      </Container>
+
+    </>
   );
 };
 
