@@ -49,16 +49,16 @@ const Search: React.FC = () => {
   }
 
   function filterFor(query) {
-    if(option === "Produto") {
+    if (option === "Produto") {
       return produtos.filter(
-        item => item.nome 
+        item => item.nome
           .normalize("NFD")
           .replace(/[^a-zA-Zs]/g, "")
           .toUpperCase()
           .includes(query.toUpperCase()))
     } else {
       return produtos.filter(
-        item => item.categoria 
+        item => item.categoria
           .normalize("NFD")
           .replace(/[^a-zA-Zs]/g, "")
           .toUpperCase()
@@ -74,14 +74,15 @@ const Search: React.FC = () => {
   useEffect(() => {
     async function loadProdutos(): Promise<void> {
       const response = await api.get('/produtos');
-      setProdutos(response.data["produtos"]);
       setTudo(response.data["produtos"])
+      setProdutos(response.data["produtos"]);
     }
     loadProdutos();
     setOption('Produto');
   }, [])
 
-  function applyOrder(list: Produto[], orderParam: string) {
+  function applyOrder(orderParam: string) {
+    var list: Produto[] = filterFor(searchQuery);
     var keyOrder = option === 'Produto'
       ? 'nome' : 'categoria';
     var typeOrder = 'asc';
@@ -111,101 +112,98 @@ const Search: React.FC = () => {
   }, [navigate]);
 
   return (
-    <>
-      <Container>
+    <Container>
       <Provider>
-          <Portal>
+        <Portal>
 
-        <Toolbar>
-          <ButtonStyles
-            onPress={navigateToDashboard}
-          >
-            <FeatherIcon size={30} name="chevron-left" color="#312e38" />
-          </ButtonStyles>
-          <Titulo>Pesquisa de Produtos</Titulo>
-        </Toolbar>
+          <Toolbar>
+            <ButtonStyles
+              onPress={navigateToDashboard}
+            >
+              <FeatherIcon size={30} name="chevron-left" color="#312e38" />
+            </ButtonStyles>
+            <Titulo>Pesquisa de Produtos</Titulo>
+          </Toolbar>
 
 
-        <SearchContainer>
-          <Searchbar
-            accessibilityStates="selected"
-            placeholder="Pesquisar produtos"
-            onChangeText={onChangeSearch}
-            value={searchQuery}
-          />
-        </SearchContainer>
-
-        <ProdutoContainer>
-          <ProdutoList
-            data={produtos}
-            keyExtractor={item => item.id}
-            ListFooterComponent={<View />}
-            ListFooterComponentStyle={{
-              height: 80,
-            }}
-            renderItem={({ item }) => (
-              <Produto>
-
-                <ProdutoNome>{item.nome}</ProdutoNome>
-                <ProdutoCategoria>{item.categoria}</ProdutoCategoria>
-                <ProdutoPreco>{formatValue(item.preco)}</ProdutoPreco>
-              </Produto>
-            )}
-          />
-
-        </ProdutoContainer>
-
-        
-            <FAB.Group style={styles.fab}
-              visible={true}
-              open={open}
-              icon={open ? 'clippy' : 'filter'}
-              actions={[
-                {
-                  icon: 'folder-move',
-                  label: `Filtrar por ${option === 'Produto' ? 'Categoria' : 'Produto'}`,
-                  onPress: () => {
-                    if (option === "Categoria") setOption("Produto");
-                    else setOption("Categoria")
-                    // applyFilter('alf_asc')
-                    applyOrder(filterFor(searchQuery), 'alf_asc');
-                  }
-                },
-                {
-                  icon: 'order-alphabetical-ascending',
-                  label: 'A - Z',
-                  onPress: () => applyOrder(filterFor(searchQuery), 'alf_asc'),
-                },
-                {
-                  icon: 'order-alphabetical-descending',
-                  label: 'Z - A',
-                  onPress: () => applyOrder(filterFor(searchQuery), 'alf_desc'),
-                },
-                {
-                  icon: 'order-numeric-descending',
-                  label: 'Maior valor',
-                  onPress: () => applyOrder(filterFor(searchQuery), 'vlr_desc'),
-                },
-                {
-                  icon: 'order-numeric-ascending',
-                  label: 'Menor valor',
-                  onPress: () => applyOrder(filterFor(searchQuery), 'vlr_asc'),
-                },
-              ]}
-              onStateChange={onStateChange}
-              onPress={() => {
-                if (open) {
-                  console.log(state)
-                } else {
-                  console.log(option)
-                }
-              }}
+          <SearchContainer>
+            <Searchbar
+              accessibilityStates="selected"
+              placeholder="Pesquisar produtos"
+              onChangeText={onChangeSearch}
+              value={searchQuery}
             />
-          </Portal>
-        </Provider>
-      </Container>
+          </SearchContainer>
 
-    </>
+          <ProdutoContainer>
+            <ProdutoList
+              data={produtos}
+              keyExtractor={item => item.id}
+              ListFooterComponent={<View />}
+              ListFooterComponentStyle={{
+                height: 80,
+              }}
+              renderItem={({ item }) => (
+                <Produto>
+
+                  <ProdutoNome>{item.nome}</ProdutoNome>
+                  <ProdutoCategoria>{item.categoria}</ProdutoCategoria>
+                  <ProdutoPreco>{formatValue(item.preco)}</ProdutoPreco>
+                </Produto>
+              )}
+            />
+
+          </ProdutoContainer>
+
+
+          <FAB.Group style={styles.fab}
+            visible={true}
+            open={open}
+            icon={open ? 'clippy' : 'filter'}
+            actions={[
+              {
+                icon: 'folder-move',
+                label: `Filtrar por ${option === 'Produto' ? 'Categoria' : 'Produto'}`,
+                onPress: () => {
+                  if (option === "Categoria") setOption("Produto");
+                  else setOption("Categoria")
+                  applyOrder('alf_asc');
+                }
+              },
+              {
+                icon: 'order-alphabetical-ascending',
+                label: 'A - Z',
+                onPress: () => applyOrder('alf_asc'),
+              },
+              {
+                icon: 'order-alphabetical-descending',
+                label: 'Z - A',
+                onPress: () => applyOrder('alf_desc'),
+              },
+              {
+                icon: 'order-numeric-descending',
+                label: 'Maior valor',
+                onPress: () => applyOrder('vlr_desc'),
+              },
+              {
+                icon: 'order-numeric-ascending',
+                label: 'Menor valor',
+                onPress: () => applyOrder('vlr_asc'),
+              },
+            ]}
+            onStateChange={onStateChange}
+            onPress={() => {
+              if (open) {
+                // console.log(state)
+              } else {
+                // console.log(option)
+              }
+            }}
+          />
+        </Portal>
+      </Provider>
+    </Container>
+
   );
 };
 
