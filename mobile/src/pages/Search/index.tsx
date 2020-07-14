@@ -113,6 +113,8 @@ const Search: React.FC = () => {
   return (
     <>
       <Container>
+      <Provider>
+          <Portal>
 
         <Toolbar>
           <ButtonStyles
@@ -153,9 +155,7 @@ const Search: React.FC = () => {
 
         </ProdutoContainer>
 
-        <Provider>
-
-          <Portal>
+        
             <FAB.Group style={styles.fab}
               visible={true}
               open={open}

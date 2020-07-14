@@ -71,10 +71,8 @@ export const ProdutoCategoria = styled.Text`
 `;
 
 export const SearchContainer = styled.View`
-  margin-top: 5px;
-  margin-bottom: 8px;
+  margin: 8px 10px;
   border-radius: 5px;
-  width: 80%;
 `;
 
 export const ButtonStyles = styled.TouchableOpacity``;
