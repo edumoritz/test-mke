@@ -1,16 +1,9 @@
 import { HeaderService } from './../template/header/header.service';
 import { ProductService } from './../product/product.service';
-import { Component, OnInit, Output, EventEmitter, Input, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Product } from '../product/product.model';
 import { MatRadioChange } from '@angular/material/radio';
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
 
 @Component({
   selector: 'app-search',

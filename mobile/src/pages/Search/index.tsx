@@ -44,7 +44,7 @@ const Search: React.FC = () => {
     !!query
       ? setProdutos(filterFor(query))
       : setProdutos(tudo);
-
+    
     setSearchQuery(query);
   }
 
@@ -74,14 +74,19 @@ const Search: React.FC = () => {
   useEffect(() => {
     async function loadProdutos(): Promise<void> {
       const response = await api.get('/produtos');
-      setTudo(response.data["produtos"])
-      setProdutos(response.data["produtos"]);
+      const sort = response.data["produtos"].sort(dynamicSorting('nome', 'alf_asc'));
+      setTudo(sort)
+      setProdutos(sort);
     }
     loadProdutos();
     setOption('Produto');
   }, [])
 
-  function applyOrder(orderParam: string) {
+  useEffect(() => {
+    applyOrder('alf_asc');
+  }, [option])
+
+  function applyOrder(orderParam: string) {    
     var list: Produto[] = filterFor(searchQuery);
     var keyOrder = option === 'Produto'
       ? 'nome' : 'categoria';
@@ -166,9 +171,8 @@ const Search: React.FC = () => {
                 label: `Filtrar por ${option === 'Produto' ? 'Categoria' : 'Produto'}`,
                 onPress: () => {
                   if (option === "Categoria") setOption("Produto");
-                  else setOption("Categoria")
-                  applyOrder('alf_asc');
-                }
+                  else setOption("Categoria")                  
+                },
               },
               {
                 icon: 'order-alphabetical-ascending',
