@@ -8,7 +8,7 @@
 </p>
 
 <h3 align="center">
-  Aplicação API Rest CRUD
+  Aplicação CRUD, Filtros e Ordenação
 </h3>
 
 <p align="center">
@@ -30,7 +30,7 @@
 </p>
 
 <p align="center">
-Essa aplicação é um exemplo de CRUD com API Rest de produtos
+Essa aplicação é um exemplo de CRUD, filtros e ordenação de lista no frontend
 <p>
 
 
@@ -51,11 +51,16 @@ Essa aplicação é um exemplo de CRUD com API Rest de produtos
 ## :bookmark: Funcionalidades
 
 * É possível realizar CRUD de produtos com categorias, caso a categoria não exista será criada uma nova.
-* É possível realizar pesquisas, filtros e ordenações na lista de produtos.
+* É possível realizar filtros e ordenações tanto de produtos como de categorias.
 
 <p align="center">
   <img src = ".github/frontcreate.png" width=700>
   <img src = ".github/frontsearch.png" width=700>
+</p>
+<p align="center">
+  <img src = ".github/mobcad.png" width=200>
+  <img src = ".github/moblist.png" width=200>
+  <img src = ".github/mobsearch.png" width=200>
 </p>
 
 
