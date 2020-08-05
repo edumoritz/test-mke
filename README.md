@@ -8,7 +8,7 @@
 </p>
 
 <h3 align="center">
-  Aplicação CRUD, Filtros e Ordenação
+  🎉 Aplicação CRUD, Filtros e Ordenação 🎉
 </h3>
 
 <p align="center">
